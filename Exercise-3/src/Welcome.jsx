@@ -8,4 +8,5 @@ function Welcome(props) {
     </div>
   );
 }
+Welcome.defaultProps = {name : "Morena"};
 export default Welcome;
