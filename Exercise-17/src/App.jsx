@@ -8,8 +8,8 @@ function App() {
   return (
     <div>
       <LanguageContext.Provider value={language}>
-        <div className="p-4">
-          <label className="mr-2">Select Language:</label>
+        <div>
+          <label className="m-2">Select Language:</label>
           <select
             id="lang-select"
             value={language}
