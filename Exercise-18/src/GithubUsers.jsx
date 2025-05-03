@@ -24,12 +24,12 @@ export function GithubUsers() {
           required
         />
         <button type="submit" className="border-1 ml-8 p-1">
-          Add users
+          Search users
         </button>
       </form>
       <ul>
-        {usernames.map((username, index) => (
-          <GithubUser key={index} username={username} />
+        {usernames.map((username) => (
+          <GithubUser key={username} username={username} />
         ))}
       </ul>
     </div>
