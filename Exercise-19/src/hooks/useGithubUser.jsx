@@ -1,18 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 
-export function useGithubUser(username) {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    fetch(`https://api.github.com/users/${username}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        setData(json);
-      })
-      .catch((error) => console.error(`Errore nel fetch:`, error));
-  }, [username]);
+function useGithubUser() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  return data;
-  
+  const fetchUser = useCallback(async (username) => {
+    setLoading(true);
+    setError(null);
+    setUser(null);
+
+    try {
+      const res = await fetch(`https://api.github.com/users/${username}`);
+      if (!res.ok) throw new Error("Utente non trovato");
+      const data = await res.json();
+      setUser(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return { user, loading, error, fetchUser };
 }
+
+export default useGithubUser;

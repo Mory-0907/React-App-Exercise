@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGithubUser } from "./hooks/useGithubUser";
+import useGithubUser from "./hooks/useGithubUser";
 
 function GithubSearch() {
   const [input, setInput] = useState("");
