@@ -56,7 +56,7 @@ function App() {
     <>
       <section>
         <main>
-          <h1>APPLICAZIONE REACT</h1>
+          <h1>EVENT REACT</h1>
 
           <hr />
           {messages.map((msg, index) => (
