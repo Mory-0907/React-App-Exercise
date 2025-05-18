@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Messaggio from "./Messaggio";
 import "./styles.css";
+import useSWR from "swr";
 
 function App() {
   const [messages, setMessages] = useState([
@@ -15,7 +16,25 @@ function App() {
     { text: "Ok, ci aggiorniamo, buona giornata!", className: "blu-right" },
   ]);
 
+  const fetcher = (url) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => ({ ...res, date: new Date().getTime() }));
+  
+
   const chatEndRef = useRef(null); 
+
+  const { data, mutate } = useSWR(
+    "https://mocki.io/v1/c9a3b317-713a-4c24-b7fe-3dcb965d893b",
+    fetcher
+  );
+
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.sender === "sent") {
+      mutate();
+    }
+  }, [data]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
@@ -42,7 +61,7 @@ function App() {
       ];
 
       const randomResponse =
-        randomResponses[Math.floor(Math.random() * randomResponses.length)];
+        randomResponses[Math.floor(Math.random() * data.responses.length + 0)];
 
       setMessages((messaggiPrecedenti) => [
         ...messaggiPrecedenti,
